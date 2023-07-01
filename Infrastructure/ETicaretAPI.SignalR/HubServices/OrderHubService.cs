@@ -1,0 +1,22 @@
+﻿using ETicaretAPI.Application.Abstractions.Hubs;
+using ETicaretAPI.SignalR.Hubs;
+using Microsoft.AspNetCore.SignalR;
+
+namespace ETicaretAPI.SignalR.HubServices
+{
+
+    public class OrderHubService : IOrderHubService
+    {
+        readonly IHubContext<OrderHub> _hubContext;
+
+        public OrderHubService(IHubContext<OrderHub> hubContext)
+        {
+            _hubContext = hubContext;
+        }
+
+        public async Task OrderCreatedMessageAsync(string message)
+        {
+            await _hubContext.Clients.All.SendAsync(ReceiveFuntionNames.OrderCreatedMessage, message);
+        }
+    }
+}
